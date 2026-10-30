@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic Tarot - Trọn Bộ 78 Lá Bài</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>MYSTIC TAROT</h1>
+            <p class="subtitle">Khám phá thông điệp từ Trọn Bộ 78 Lá Bài Tarot</p>
+        </header>
+
+        <div class="controls">
+            <button class="btn" id="btn-spread-1">Trải 1 Lá (Lời Khuyên)</button>
+            <button class="btn" id="btn-spread-3">Trải 3 Lá (Quá Khứ - Hiện Tại - Tương Lai)</button>
+        </div>
+
+        <div class="cards-display" id="cards-display"></div>
+
+        <div class="readings-container" id="readings-container"></div>
+
+        <div class="deck-preview">
+            <h2>Bộ Bài Đầy Đủ (78 Lá Bài)</h2>
+            <div id="deck-categories"></div>
+        </div>
+    </div>
+
+    <!-- Tải script chính dưới dạng ES6 Module -->
+    <script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>

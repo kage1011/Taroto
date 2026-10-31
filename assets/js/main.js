@@ -65,19 +65,95 @@ export function startSpread(count) {
             </div>
         `;
         
-        // Gán sự kiện click lật bài
         const cardEl = slot.querySelector('.card');
-        cardEl.addEventListener('click', () => flipCard(cardEl, i));
+        cardEl.addEventListener('click', () => flipCard(cardEl, i, count));
 
         display.appendChild(slot);
     }
 }
-
-// LẬT BÀI
-function flipCard(cardEl, index) {
+// LẬT BÀI VÀ GỌI AI KHI LẬT HẾT
+let flippedCount = 0;
+function flipCard(cardEl, index, totalCount) {
     if (cardEl.classList.contains('flipped')) return;
     cardEl.classList.add('flipped');
-    setTimeout(() => { showReading(index); }, 500);
+    flippedCount++;
+
+    // Hiển thị gợi ý cơ bản trước
+    showQuickReading(index);
+
+    // Khi người dùng đã lật hết các lá bài được trải, tiến hành gọi AI tổng hợp
+    if (flippedCount === totalCount) {
+        flippedCount = 0; // reset
+        fetchAIPoweredReading();
+    }
+}
+
+// Hiển thị nhanh ý nghĩa từng lá
+function showQuickReading(index) {
+    const data = selectedCards[index];
+    const container = document.getElementById('readings-container');
+
+    const readingCard = document.createElement('div');
+    readingCard.className = 'reading-card';
+    readingCard.id = `reading-card-${index}`;
+    readingCard.innerHTML = `
+        <span class="position-tag">${data.position}</span>
+        <h3>${data.card.name} (${data.isReversed ? 'Ngược' : 'Xuôi'})</h3>
+        <p><strong>Từ khóa:</strong> ${data.card.keywords}</p>
+        <p style="margin-top: 8px;">${data.isReversed ? data.card.reversed : data.card.upright}</p>
+    `;
+    container.appendChild(readingCard);
+}
+
+
+// GỌI AI PHÂN TÍCH TỔNG HỢP
+async function fetchAIPoweredReading() {
+    const questionInput = document.getElementById('user-question');
+    const question = questionInput ? questionInput.value.trim() : "";
+    const container = document.getElementById('readings-container');
+
+    // Tạo khung loading chờ AI phản hồi
+    const loadingCard = document.createElement('div');
+    loadingCard.className = 'reading-card';
+    loadingCard.id = 'ai-loading';
+    loadingCard.innerHTML = `
+        <span class="position-tag" style="background: #b5179e;">🔮 Huyền Giả AI</span>
+        <h3>Đang kết nối năng lượng vũ trụ...</h3>
+        <p style="font-style: italic; opacity: 0.8;">AI đang hòa nhịp cùng câu hỏi và các lá bài của bạn để soạn bài luận giải sâu sắc...</p>
+    `;
+    container.appendChild(loadingCard);
+
+    try {
+        const response = await fetch('http://localhost:3000/api/tarot-reading', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, selectedCards })
+        });
+
+        const data = await response.json();
+        
+        // Xóa khung loading
+        document.getElementById('ai-loading').remove();
+
+        if (data.success) {
+            const aiCard = document.createElement('div');
+            aiCard.className = 'reading-card';
+            aiCard.style.borderLeftColor = '#9d4edd';
+            aiCard.innerHTML = `
+                <span class="position-tag" style="background: #7209b7;">✨ Lời Khuyên Tổng Hợp Từ Gehihi</span>
+                <div style="margin-top: 10px; line-height: 1.6; white-space: pre-line;">${data.reading}</div>
+            `;
+            container.appendChild(aiCard);
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (err) {
+        document.getElementById('ai-loading').remove();
+        const errCard = document.createElement('div');
+        errCard.className = 'reading-card';
+        errCard.innerHTML = `<p style="color: #ff6b6b;">Lỗi: Không thể nhận thông điệp từ AI (${err.message}). Hãy chắc chắn server Node.js đang chạy!</p>`;
+        container.appendChild(errCard);
+    }
 }
 
 // HIỂN THỊ LỜI GIẢI

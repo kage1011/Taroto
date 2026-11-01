@@ -1,31 +1,29 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mystic Tarot - Trọn Bộ 78 Lá Bài</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <canvas id="particle-canvas"></canvas>
 
-    <div class="container">
-      <header>
-        <h1>TAROTO HOUSE</h1>
-        <p class="subtitle">Khám phá thông điệp từ Trọn Bộ 78 Lá Bài Tarot</p>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mystic Tarot - Trọn Bộ 78 Lá Bài</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
 
-      <div class="controls">
-        <div style="width: 100%; max-width: 500px; margin-bottom: 1rem">
-          <input
-            type="text"
-            id="user-question"
-            placeholder="Nhập tâm sự hoặc câu hỏi của bạn (VD: Công việc sắp tới thế nào?)..."
-            style="
+<body>
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="container">
+    <header>
+      <h1>TAROTO HOUSE</h1>
+      <p class="subtitle">Khám phá thông điệp từ Trọn Bộ 78 Lá Bài Tarot</p>
+    </header>
+
+    <div class="controls">
+      <div style="width: 100%; max-width: 500px; margin-bottom: 1rem">
+        <input type="text" id="user-question"
+          placeholder="Nhập tâm sự hoặc câu hỏi của bạn (VD: Công việc sắp tới thế nào?)..." style="
               width: 100%;
               padding: 0.8rem 1.2rem;
               border-radius: 25px;
@@ -34,26 +32,26 @@
               color: #fff;
               outline: none;
               text-align: center;
-            "
-          />
-        </div>
-        <div style="display: flex; gap: 1rem">
-          <button class="btn" id="btn-spread-1">Trải 1 Lá (Lời Khuyên)</button>
-          <button class="btn" id="btn-spread-3">
-            Trải 3 Lá (Quá Khứ - Hiện Tại - Tương Lai)
-          </button>
-        </div>
+            " />
       </div>
-
-      <div class="cards-display" id="cards-display"></div>
-
-      <div class="readings-container" id="readings-container"></div>
-
-      <div class="deck-preview">
-        <h2>Bộ Bài Đầy Đủ (78 Lá Bài)</h2>
-        <div id="deck-categories"></div>
+      <div style="display: flex; gap: 1rem">
+        <button class="btn" id="btn-spread-1">Trải 1 Lá (Lời Khuyên)</button>
+        <button class="btn" id="btn-spread-3">
+          Trải 3 Lá (Quá Khứ - Hiện Tại - Tương Lai)
+        </button>
       </div>
     </div>
-    <script type="module" src="./assets/js/main.js"></script>
-  </body>
+
+    <div class="cards-display" id="cards-display"></div>
+
+    <div class="readings-container" id="readings-container"></div>
+
+    <div class="deck-preview">
+      <h2>Bộ Bài Đầy Đủ (78 Lá Bài)</h2>
+      <div id="deck-categories"></div>
+    </div>
+  </div>
+  <script type="module" src="./assets/js/main.js"></script>
+</body>
+
 </html>

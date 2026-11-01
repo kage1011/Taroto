@@ -6,7 +6,7 @@ let selectedCards = [];
 export function initFullDeckPreview() {
     const categoriesContainer = document.getElementById('deck-categories');
     if (!categoriesContainer) return;
-    
+
     categoriesContainer.innerHTML = '';
     const categories = [...new Set(tarotDeck.map(card => card.cat))];
 
@@ -41,8 +41,8 @@ export function startSpread(count) {
     selectedCards = [];
 
     const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
-    const positions = count === 1 
-        ? ["Thông điệp dành cho bạn"] 
+    const positions = count === 1
+        ? ["Thông điệp dành cho bạn"]
         : ["1. Quá Khứ", "2. Hiện Tại", "3. Tương Lai"];
 
     for (let i = 0; i < count; i++) {
@@ -64,7 +64,7 @@ export function startSpread(count) {
                 </div>
             </div>
         `;
-        
+
         const cardEl = slot.querySelector('.card');
         cardEl.addEventListener('click', () => flipCard(cardEl, i, count));
 
@@ -117,9 +117,9 @@ async function fetchAIPoweredReading() {
     loadingCard.className = 'reading-card';
     loadingCard.id = 'ai-loading';
     loadingCard.innerHTML = `
-        <span class="position-tag" style="background: #b5179e;">🔮 Huyền Giả AI</span>
-        <h3>Đang kết nối năng lượng vũ trụ...</h3>
-        <p style="font-style: italic; opacity: 0.8;">AI đang hòa nhịp cùng câu hỏi và các lá bài của bạn để soạn bài luận giải sâu sắc...</p>
+        <span class="position-tag" style="background: #b5179e;">🔮 Có nghe thấy tiếng lật sách không</span>
+        <h3>Đang kết nối năng lượng zũ trụ...</h3>
+        <p style="font-style: italic; opacity: 0.8;">Devan đang lật sách hướng dẫn để giải nghĩa, Querent đợi xíu nhé ...</p>
     `;
     container.appendChild(loadingCard);
 
@@ -131,7 +131,7 @@ async function fetchAIPoweredReading() {
         });
 
         const data = await response.json();
-        
+
         // Xóa khung loading
         document.getElementById('ai-loading').remove();
 
@@ -140,7 +140,7 @@ async function fetchAIPoweredReading() {
             aiCard.className = 'reading-card';
             aiCard.style.borderLeftColor = '#9d4edd';
             aiCard.innerHTML = `
-                <span class="position-tag" style="background: #7209b7;">✨ Lời Khuyên Tổng Hợp Từ Gehihi</span>
+                <span class="position-tag" style="background: #7209b7;">✨ Lời Khuyên Tổng Hợp Từ Reader</span>
                 <div style="margin-top: 10px; line-height: 1.6; white-space: pre-line;">${data.reading}</div>
             `;
             container.appendChild(aiCard);
@@ -151,7 +151,7 @@ async function fetchAIPoweredReading() {
         document.getElementById('ai-loading').remove();
         const errCard = document.createElement('div');
         errCard.className = 'reading-card';
-        errCard.innerHTML = `<p style="color: #ff6b6b;">Lỗi: Không thể nhận thông điệp từ AI (${err.message}). Hãy chắc chắn server Node.js đang chạy!</p>`;
+        errCard.innerHTML = `<p style="color: #ff6b6b;">Lỗi: Không thể nhận thông điệp (${err.message}). Hãy chắc chắn server Node.js đang chạy!</p>`;
         container.appendChild(errCard);
     }
 }

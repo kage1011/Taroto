@@ -1,13 +1,25 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Phục vụ các file tĩnh (HTML, CSS, JS, hình ảnh)
+app.use(express.static('.'));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'index.html'));
+});
 
 // Khởi tạo Gemini AI SDK mới nhất (@google/genai)
 const apiKey = (process.env.GEMINI_API_KEY || '').trim();
@@ -18,7 +30,7 @@ const ai = new GoogleGenAI({ apiKey });
 
 // Hàm hỗ trợ thử lại khi gặp lỗi quá tải hoặc thử các model khả dụng
 async function generateWithRetry(aiClient, prompt, retries = 3, delay = 2000) {
-    const models = ['gemini-flash-latest'];
+    const models = ['gemini-flash-latest', 'gemini-2.5-flash-lite'];
 
     for (const modelName of models) {
         for (let i = 0; i < retries; i++) {
@@ -37,7 +49,7 @@ async function generateWithRetry(aiClient, prompt, retries = 3, delay = 2000) {
                 } else if (i === retries - 1) {
                     console.warn(`Model ${modelName} không thể phản hồi sau ${retries} lần thử, chuyển sang model dự phòng...`);
                 } else {
-                    // Lỗi 404 hoặc lỗi xác thực thì không retry vô ích, thử model kế tiếp
+                    // Lỗi 404 hoặc lỗi xác thực thì thử model kế tiếp
                     console.warn(`Model ${modelName} gặp lỗi (${error.status || error.message}), chuyển sang model kế...`);
                     break;
                 }
@@ -52,29 +64,32 @@ app.post('/api/tarot-reading', async (req, res) => {
         const { question, selectedCards } = req.body;
 
         const cardsDescription = (selectedCards || []).map(item =>
-            `- Vị trí (${item.position}): Lá bài ${item.card?.name || 'Chưa rõ'} (${item.isReversed ? 'Ngược' : 'Xuôi'})`
-        ).join('\n');
+            `- Vị trí (${item.position}): Lá bài ${item.card?.name || 'Chưa rõ'} (${item.isReversed ? 'Ngược ↺' : 'Xuôi ✦'})\n  Ý nghĩa: ${item.isReversed ? item.card?.reversed : item.card?.upright}`
+        ).join('\n\n');
 
         const prompt = `
 Bạn là một chuyên gia Tarot huyền bí, điềm đạm, có chiều sâu tâm lý và sử dụng tiếng Việt uyển chuyển, thấu cảm.
-Người dùng vừa đặt câu hỏi: "${question || "Không có câu hỏi cụ thể, xin thông điệp chung"}"
+Người dùng vừa đặt câu hỏi: "${question || "Không có câu hỏi cụ thể, xin thông điệp chung từ vũ trụ"}"
 
-Họ rút được các lá bài sau:
+Họ đã rút được các lá bài sau:
 ${cardsDescription}
 
-Hãy viết một bài luận giải Tarot chi tiết, kết nối ý nghĩa các lá bài lại với nhau để giải đáp câu hỏi của họ, đồng thời đưa ra lời khuyên thiết thực, tích cực. Trình bày bài viết gọn gàng bằng Markdown (dùng tiêu đề, đoạn văn rõ ràng).
+Hãy viết một bài luận giải Tarot chi tiết, sâu sắc:
+1. **Tổng quan năng lượng**: Phân tích cảm hứng và năng lượng bao trùm lên câu hỏi của người hỏi.
+2. **Luận giải từng lá bài**: Đi sâu vào thông điệp của từng lá bài ở vị trí tương ứng, liên kết chặt chẽ với tình huống hiện tại của họ.
+3. **Mối liên kết & Lời khuyên định hướng**: Kết nối thông điệp giữa các lá bài để đưa ra lời khuyên thiết thực, chữa lành và khích lệ hành động tích cực.
+
+Trình bày bài viết gọn gàng, trang nhã bằng Markdown (dùng tiêu đề H2/H3, gạch đầu dòng, chữ in đậm tinh tế).
         `;
-        console.log('promt ', prompt)
 
         // Gọi hàm phân tích Tarot với Gemini
         const response = await generateWithRetry(ai, prompt);
-        console.log(response)
         res.json({ success: true, reading: response.text });
     } catch (error) {
         console.error("Lỗi khi gọi AI:", error);
         res.status(500).json({
             success: false,
-            error: error.message || "Hệ thống AI đang quá tải tạm thời. Vui lòng bấm 'Xem bài' lại sau ít giây!"
+            error: error.message || "Hệ thống AI đang quá tải tạm thời. Vui lòng thử lại sau ít giây!"
         });
     }
 });

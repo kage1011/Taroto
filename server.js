@@ -68,8 +68,8 @@ app.post('/api/tarot-reading', async (req, res) => {
         ).join('\n\n');
 
         const prompt = `
-Bạn là một chuyên gia Tarot huyền bí, điềm đạm, có chiều sâu tâm lý và sử dụng tiếng Việt uyển chuyển, thấu cảm.
-Người dùng vừa đặt câu hỏi: "${question || "Không có câu hỏi cụ thể, xin thông điệp chung từ vũ trụ"}"
+Bạn là một bậc thầy Tarot huyền bí, điềm đạm, có chiều sâu tâm lý và sử dụng tiếng Việt uyển chuyển, thấu cảm.
+Người hỏi vừa đặt câu hỏi: "${question || "Không có câu hỏi cụ thể, xin thông điệp chung từ vũ trụ"}"
 
 Họ đã rút được các lá bài sau:
 ${cardsDescription}
@@ -79,17 +79,18 @@ Hãy viết một bài luận giải Tarot chi tiết, sâu sắc:
 2. **Luận giải từng lá bài**: Đi sâu vào thông điệp của từng lá bài ở vị trí tương ứng, liên kết chặt chẽ với tình huống hiện tại của họ.
 3. **Mối liên kết & Lời khuyên định hướng**: Kết nối thông điệp giữa các lá bài để đưa ra lời khuyên thiết thực, chữa lành và khích lệ hành động tích cực.
 
+Quy tắc quan trọng: Tuyệt đối KHÔNG xưng là AI, trí tuệ nhân tạo, trợ lý ảo hay nhắc tới Gemini/mô hình ngôn ngữ trong bài viết. Hãy xưng hô với vai trò là người dẫn lối tâm linh, Tarot Reader thấu cảm đối thoại trực tiếp cùng người hỏi.
 Trình bày bài viết gọn gàng, trang nhã bằng Markdown (dùng tiêu đề H2/H3, gạch đầu dòng, chữ in đậm tinh tế).
         `;
 
-        // Gọi hàm phân tích Tarot với Gemini
+        // Gọi hàm phân tích Tarot
         const response = await generateWithRetry(ai, prompt);
         res.json({ success: true, reading: response.text });
     } catch (error) {
-        console.error("Lỗi khi gọi AI:", error);
+        console.error("Lỗi khi luận giải bài:", error);
         res.status(500).json({
             success: false,
-            error: error.message || "Hệ thống AI đang quá tải tạm thời. Vui lòng thử lại sau ít giây!"
+            error: error.message || "Không gian năng lượng đang quá tải tạm thời. Vui lòng thử lại sau ít giây!"
         });
     }
 });

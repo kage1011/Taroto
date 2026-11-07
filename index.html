@@ -4,20 +4,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TAROTO HOUSE - Trọn Bộ 78 Lá Bài & Huyền Giả AI</title>
-  
-  <!-- Google Fonts: Cinzel Decorative, Cinzel, Quicksand -->
+  <title>TAROTO HOUSE - Khám Phá Vận Mệnh Qua 78 Lá Bài Tarot</title>
+
+  <!-- Google Fonts: Cormorant Garamond (Mystical Serif) & Plus Jakarta Sans (Elegant Sans) - 100% Vietnamese Support -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
+
   <!-- Custom Styles -->
   <link rel="stylesheet" href="./style.css" />
 
-  <!-- Marked.js for Gemini Markdown rendering -->
+  <!-- Marked.js for Markdown rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
@@ -41,30 +43,32 @@
 
     <!-- Header Section -->
     <header>
-      <div class="header-badge">✦ Mystic Tarot & Artificial Intelligence ✦</div>
+      <div class="header-badge">✦ Mystic Tarot & Divine Guidance ✦</div>
       <h1>TAROTO HOUSE</h1>
-      <p class="subtitle">Kết nối trực giác cùng vũ trụ qua 78 lá bài cổ điển và luận giải thấu cảm từ Huyền Giả AI</p>
+      <p class="subtitle">Kết nối trực giác cùng vũ trụ qua 78 lá bài cổ điển và đón nhận lời luận giải thông điệp vận
+        mệnh sâu sắc</p>
     </header>
 
     <!-- Oracle Control Box: Question & Mode Selection -->
     <section class="oracle-box" id="oracle-input-box">
       <div class="input-group">
         <i class="fa-solid fa-crystal-ball input-icon"></i>
-        <input 
-          type="text" 
-          id="user-question"
+        <input type="text" id="user-question"
           placeholder="Hãy thành tâm nhập câu hỏi hoặc tâm sự của bạn (VD: Định hướng công việc sắp tới?)..."
-          autocomplete="off"
-        />
+          autocomplete="off" />
       </div>
 
       <!-- Quick Topic Suggestions -->
       <div class="topic-tags">
-        <span class="topic-tag" data-q="Định hướng và cơ hội công việc sắp tới của tôi thế nào?">💼 Sự nghiệp & Công việc</span>
-        <span class="topic-tag" data-q="Tình cảm và nhân duyên sắp tới của tôi có biến chuyển gì không?">💖 Tình cảm & Nhân duyên</span>
-        <span class="topic-tag" data-q="Thông điệp và năng lượng vũ trụ muốn gửi gắm đến tôi lúc này?">🌿 Năng lượng hôm nay</span>
+        <span class="topic-tag" data-q="Định hướng và cơ hội công việc sắp tới của tôi thế nào?">💼 Sự nghiệp & Công
+          việc</span>
+        <span class="topic-tag" data-q="Tình cảm và nhân duyên sắp tới của tôi có biến chuyển gì không?">💖 Tình cảm &
+          Nhân duyên</span>
+        <span class="topic-tag" data-q="Thông điệp và năng lượng vũ trụ muốn gửi gắm đến tôi lúc này?">🌿 Năng lượng hôm
+          nay</span>
         <span class="topic-tag" data-q="Tài chính và cơ hội tiền bạc trong thời gian tới ra sao?">💰 Tài chính</span>
-        <span class="topic-tag" data-q="Tôi nên quyết định ra sao trước lựa chọn hiện tại?">🧭 Quyết định quan trọng</span>
+        <span class="topic-tag" data-q="Tôi nên quyết định ra sao trước lựa chọn hiện tại?">🧭 Quyết định quan
+          trọng</span>
       </div>
 
       <!-- Spread Mode Selector (1 Lá hoặc 3 Lá) -->
@@ -84,7 +88,7 @@
       <!-- Start Spread CTA Button -->
       <button class="btn-cta" id="btn-start-spread">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>XÁO & XÒE BÀI</span>
+        <span>Hãy Để Định Mệnh Dẫn Đường</span>
       </button>
     </section>
 
@@ -132,7 +136,7 @@
     <!-- CARD DETAILS GRID (Ý nghĩa ngắn gọn từng lá đã lật) -->
     <section class="card-details-grid" id="card-details-grid"></section>
 
-    <!-- GEMINI AI CONSULTATION SECTION (Huyền Giả AI Luận Giải Chi Tiết) -->
+    <!-- ORACLE CONSULTATION SECTION (Thông Điệp Luận Giải Huyền Bí) -->
     <section class="ai-consultation-section" id="ai-consultation-section" style="display: none;">
       <div class="ai-card">
         <div class="ai-header">
@@ -141,8 +145,8 @@
               <i class="fa-solid fa-feather-pointed"></i>
             </div>
             <div>
-              <div class="ai-title">Lời Luận Giải Từ Huyền Giả AI</div>
-              <div class="ai-badge">Google Gemini Intelligence</div>
+              <div class="ai-title">Hãy Xem Vũ Trụ Đang Muốn Nói Với Bạn Điều Gì</div>
+              <div class="ai-badge">✦ Mỗi Lá Bài Là Một Câu Chuyện ✦</div>
             </div>
           </div>
           <button class="btn-secondary" id="btn-copy-reading" style="display: none;">
@@ -150,7 +154,7 @@
           </button>
         </div>
 
-        <!-- AI Cosmic Loading Indicator -->
+        <!-- Cosmic Loading Indicator -->
         <div class="ai-loading-box" id="ai-loading-box">
           <div class="cosmic-orb">
             <div class="orb-core"></div>
@@ -158,10 +162,11 @@
             <div class="orb-ring"></div>
           </div>
           <div class="ai-loading-text">Đang kết nối trường năng lượng vũ trụ...</div>
-          <div class="ai-loading-subtext">Huyền Giả AI đang kết nối các lá bài với câu hỏi của bạn để soạn bài luận giải sâu sắc.</div>
+          <div class="ai-loading-subtext">Vũ trụ đang hòa nhịp cùng câu hỏi và các lá bài bạn rút để đưa ra lời khai mở
+            sáng tỏ(thực ra là đang tra sách)...</div>
         </div>
 
-        <!-- Rendered AI Output (Markdown Formatted) -->
+        <!-- Rendered Output (Markdown Formatted) -->
         <div class="ai-content" id="ai-reading-content" style="display: none;"></div>
 
         <!-- Bottom Actions -->
@@ -180,7 +185,8 @@
           <i class="fa-solid fa-layer-group"></i>
           <span>Thư Viện Trọn Bộ 78 Lá Bài Tarot</span>
         </div>
-        <i class="fa-solid fa-chevron-down" id="preview-chevron" style="color: var(--gold-primary); transition: transform 0.3s;"></i>
+        <i class="fa-solid fa-chevron-down" id="preview-chevron"
+          style="color: var(--gold-primary); transition: transform 0.3s;"></i>
       </div>
 
       <div class="preview-content" id="preview-content">
@@ -204,16 +210,21 @@
     <div class="modal-card">
       <button class="modal-close" id="modal-close-btn">&times;</button>
       <img src="" alt="" class="modal-card-img" id="modal-img" />
-      <h3 id="modal-title" style="color: var(--gold-primary); font-family: var(--font-subheading); margin-bottom: 0.4rem;"></h3>
-      <div id="modal-cat" style="font-size: 0.8rem; color: var(--cyan-glow); margin-bottom: 0.6rem; text-transform: uppercase;"></div>
-      <p id="modal-keywords" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; font-style: italic;"></p>
-      
+      <h3 id="modal-title"
+        style="color: var(--gold-primary); font-family: var(--font-subheading); margin-bottom: 0.4rem;"></h3>
+      <div id="modal-cat"
+        style="font-size: 0.8rem; color: var(--cyan-glow); margin-bottom: 0.6rem; text-transform: uppercase;"></div>
+      <p id="modal-keywords"
+        style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; font-style: italic;"></p>
+
       <div style="text-align: left; width: 100%; display: flex; flex-direction: column; gap: 0.8rem;">
-        <div style="background: rgba(10,5,20,0.5); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #4cc9f0;">
+        <div
+          style="background: rgba(10,5,20,0.5); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #4cc9f0;">
           <strong style="color: #4cc9f0; font-size: 0.85rem;">✦ Ý nghĩa xuôi (Upright):</strong>
           <p id="modal-upright" style="font-size: 0.88rem; margin-top: 4px; line-height: 1.5;"></p>
         </div>
-        <div style="background: rgba(10,5,20,0.5); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #ff6b6b;">
+        <div
+          style="background: rgba(10,5,20,0.5); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #ff6b6b;">
           <strong style="color: #ff6b6b; font-size: 0.85rem;">✦ Ý nghĩa ngược (Reversed):</strong>
           <p id="modal-reversed" style="font-size: 0.88rem; margin-top: 4px; line-height: 1.5;"></p>
         </div>

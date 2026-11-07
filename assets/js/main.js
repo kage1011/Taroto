@@ -10,7 +10,7 @@ let shuffledDeck = [];
 let pickedCards = []; // Mảng lưu các lá người dùng tự tay chọn từ bộ xòe
 let activeFanCards = []; // Các lá bài hiển thị trên quạt
 let flippedCount = 0;
-let isAIInProgress = false;
+let isReadingInProgress = false;
 let soundEnabled = true;
 
 /* ==========================================================
@@ -272,7 +272,7 @@ export function startShuffleAndFan() {
     // Reset trạng thái
     pickedCards = [];
     flippedCount = 0;
-    isAIInProgress = false;
+    isReadingInProgress = false;
 
     // Ẩn các khu vực cũ
     document.getElementById('card-details-grid').innerHTML = '';
@@ -541,10 +541,10 @@ function flipSlotCard(item, cardEl) {
     // Thêm thẻ diễn giải ý nghĩa ngắn gọn vào grid bên dưới
     renderCardDetailCard(item);
 
-    // Nếu đã lật hết tất cả lá bài, tự động gọi Gemini AI
+    // Nếu đã lật hết tất cả lá bài, tự động chuyển sang bước luận giải thông điệp
     if (flippedCount === currentSpreadMode) {
         setTimeout(() => {
-            fetchGeminiTarotReading();
+            fetchTarotReading();
         }, 700);
     }
 }
@@ -583,11 +583,11 @@ function flipAllCards() {
 }
 
 /* ==========================================================
-   6. GỌI GEMINI AI LUẬN GIẢI CHUYÊN SÂU
+   6. LUẬN GIẢI THÔNG ĐIỆP CHUYÊN SÂU
    ========================================================== */
-async function fetchGeminiTarotReading() {
-    if (isAIInProgress) return;
-    isAIInProgress = true;
+async function fetchTarotReading() {
+    if (isReadingInProgress) return;
+    isReadingInProgress = true;
 
     const questionInput = document.getElementById('user-question');
     const question = questionInput ? questionInput.value.trim() : "";
@@ -604,7 +604,7 @@ async function fetchGeminiTarotReading() {
     actionsBar.style.display = 'none';
     copyBtn.style.display = 'none';
 
-    // Cuộn mượt mà xuống phần AI
+    // Cuộn mượt mà xuống phần luận giải
     setTimeout(() => {
         aiSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 200);
@@ -627,7 +627,7 @@ async function fetchGeminiTarotReading() {
 
         if (!response.ok) {
             const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.error || `Lỗi máy chủ (${response.status})`);
+            throw new Error(errData.error || `Lỗi kết nối (${response.status})`);
         }
 
         const data = await response.json();
@@ -647,29 +647,29 @@ async function fetchGeminiTarotReading() {
 
             playFanSound();
         } else {
-            throw new Error(data.error || "Không nhận được phản hồi từ AI.");
+            throw new Error(data.error || "Chưa thể đón nhận lời giải đáp lúc này.");
         }
     } catch (err) {
         loadingBox.style.display = 'none';
         contentBox.style.display = 'block';
         contentBox.innerHTML = `
             <div style="background: rgba(255, 107, 107, 0.15); border: 1px solid #ff6b6b; padding: 1.2rem; border-radius: 12px; color: #ffb4b4;">
-                <p><strong><i class="fa-solid fa-triangle-exclamation"></i> Không thể kết nối với Huyền Giả AI:</strong> ${err.message}</p>
-                <p style="margin-top: 8px; font-size: 0.88rem; color: #fff;">Vui lòng kiểm tra chắc chắn rằng bạn đã khởi động server (<code>npm start</code>) và file <code>.env</code> đã có <code>GEMINI_API_KEY</code> hợp lệ.</p>
-                <button class="btn-secondary" id="btn-retry-ai" style="margin-top: 12px;">
+                <p><strong><i class="fa-solid fa-triangle-exclamation"></i> Không thể kết nối với thông điệp:</strong> ${err.message}</p>
+                <p style="margin-top: 8px; font-size: 0.88rem; color: #fff;">Vui lòng kiểm tra chắc chắn máy chủ đang hoạt động (<code>npm start</code>) và thử lại sau ít giây.</p>
+                <button class="btn-secondary" id="btn-retry-reading" style="margin-top: 12px;">
                     <i class="fa-solid fa-rotate-right"></i> Thử lại
                 </button>
             </div>
         `;
-        const retryBtn = document.getElementById('btn-retry-ai');
+        const retryBtn = document.getElementById('btn-retry-reading');
         if (retryBtn) {
             retryBtn.addEventListener('click', () => {
-                isAIInProgress = false;
-                fetchGeminiTarotReading();
+                isReadingInProgress = false;
+                fetchTarotReading();
             });
         }
     } finally {
-        isAIInProgress = false;
+        isReadingInProgress = false;
     }
 }
 
@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. Nút đặt câu hỏi mới trong khung AI
+    // 7. Nút đặt câu hỏi mới trong khung thông điệp
     const askAnotherBtn = document.getElementById('btn-ask-another');
     if (askAnotherBtn) {
         askAnotherBtn.addEventListener('click', () => {

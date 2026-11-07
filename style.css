@@ -13,9 +13,9 @@
     --text-main: #f5f0ff;
     --text-muted: #b3a5cf;
     --border-gold: rgba(255, 215, 0, 0.28);
-    --font-heading: 'Cinzel Decorative', 'Cinzel', serif;
-    --font-subheading: 'Cinzel', serif;
-    --font-body: 'Quicksand', sans-serif;
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-subheading: 'Cormorant Garamond', serif;
+    --font-body: 'Cormorant Garamond', serif;
     --spring-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
     --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -36,7 +36,7 @@ body {
     align-items: center;
     overflow-x: hidden;
     position: relative;
-    background-image: 
+    background-image:
         radial-gradient(circle at 50% 0%, rgba(157, 78, 221, 0.18) 0%, transparent 60%),
         radial-gradient(circle at 10% 40%, rgba(76, 201, 240, 0.1) 0%, transparent 40%),
         radial-gradient(circle at 90% 70%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
@@ -123,8 +123,9 @@ header {
 h1 {
     font-family: var(--font-heading);
     color: var(--gold-primary);
-    font-size: 2.8rem;
-    letter-spacing: 2px;
+    font-size: 3.4rem;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-shadow: 0 0 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(157, 78, 221, 0.3);
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, #fff2a1 20%, #ffd700 50%, #e0aa3e 80%);
@@ -766,7 +767,7 @@ p.subtitle {
 }
 
 /* ==========================================================
-   GEMINI AI CONSULTATION SECTION (Huyền Giả AI Luận Giải)
+   ORACLE CONSULTATION SECTION (Thông Điệp Luận Giải Huyền Bí)
 ========================================================== */
 .ai-consultation-section {
     width: 100%;
@@ -908,7 +909,8 @@ p.subtitle {
     color: #f1ebfc;
 }
 
-.ai-content h2, .ai-content h3 {
+.ai-content h2,
+.ai-content h3 {
     font-family: var(--font-subheading);
     color: var(--gold-primary);
     margin: 1.4rem 0 0.6rem 0;
@@ -927,7 +929,8 @@ p.subtitle {
     margin-bottom: 1rem;
 }
 
-.ai-content ul, .ai-content ol {
+.ai-content ul,
+.ai-content ol {
     margin: 0.8rem 0 1.2rem 1.4rem;
 }
 
@@ -1026,7 +1029,8 @@ p.subtitle {
     transition: all 0.2s;
 }
 
-.filter-tab:hover, .filter-tab.active {
+.filter-tab:hover,
+.filter-tab.active {
     color: #07040d;
     background: var(--gold-primary);
     border-color: var(--gold-primary);
@@ -1142,83 +1146,185 @@ p.subtitle {
    ANIMATIONS & KEYFRAMES
 ========================================================== */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes badgePulse {
-    0% { box-shadow: 0 0 10px rgba(157, 78, 221, 0.2); }
-    100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); }
+    0% {
+        box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+    }
+
+    100% {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    }
 }
 
 @keyframes targetGlow {
-    0% { border-color: rgba(255, 215, 0, 0.35); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
-    100% { border-color: var(--gold-primary); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+    0% {
+        border-color: rgba(255, 215, 0, 0.35);
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    }
+
+    100% {
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    }
 }
 
 @keyframes pulseHint {
-    0%, 100% { transform: scale(1); opacity: 0.85; }
-    50% { transform: scale(1.06); opacity: 1; border-color: var(--cyan-glow); }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 1;
+        border-color: var(--cyan-glow);
+    }
 }
 
 @keyframes btnShimmer {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(200%) rotate(45deg); }
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(200%) rotate(45deg);
+    }
 }
 
 @keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes orbPulse {
-    0% { transform: scale(0.92); filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
-    100% { transform: scale(1.08); filter: drop-shadow(0 0 35px rgba(157, 78, 221, 0.9)); }
+    0% {
+        transform: scale(0.92);
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+    }
+
+    100% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 35px rgba(157, 78, 221, 0.9));
+    }
 }
 
 @keyframes spinRing {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes spinRingReverse {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
 }
 
 /* Responsive Breakpoints */
 @media (max-width: 768px) {
-    h1 { font-size: 2.1rem; }
-    p.subtitle { font-size: 0.95rem; }
-    .oracle-box { padding: 1.2rem; }
-    .mode-selector { grid-template-columns: 1fr; }
-    
-    .fan-viewport { height: 320px; }
+    h1 {
+        font-size: 2.1rem;
+    }
+
+    p.subtitle {
+        font-size: 0.95rem;
+    }
+
+    .oracle-box {
+        padding: 1.2rem;
+    }
+
+    .mode-selector {
+        grid-template-columns: 1fr;
+    }
+
+    .fan-viewport {
+        height: 320px;
+    }
+
     .fan-card {
         width: 82px;
         height: 140px;
         transform-origin: center 210px;
     }
+
     .fan-card::after {
         bottom: -45px;
         top: -15px;
     }
-    
-    .altar-slots { gap: 1.2rem; }
-    .altar-slot { width: 140px; min-height: 250px; }
-    .slot-placeholder, .slot-card { width: 140px; height: 235px; }
-    
-    .card-details-grid { grid-template-columns: 1fr; }
-    .grid-cards { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+
+    .altar-slots {
+        gap: 1.2rem;
+    }
+
+    .altar-slot {
+        width: 140px;
+        min-height: 250px;
+    }
+
+    .slot-placeholder,
+    .slot-card {
+        width: 140px;
+        height: 235px;
+    }
+
+    .card-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    }
 }

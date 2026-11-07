@@ -289,8 +289,9 @@ export function startShuffleAndFan() {
         [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
     }
 
-    // Lấy 26 lá bài ngẫu nhiên để xòe lên bàn hình cánh cung
-    activeFanCards = shuffledDeck.slice(0, 26);
+    // Lấy số lượng lá bài tối ưu (21 lá trên desktop, 15 lá trên mobile) để khoảng cách thoáng, không bị chồng đè hitbox
+    const fanCount = window.innerWidth < 768 ? 15 : 21;
+    activeFanCards = shuffledDeck.slice(0, fanCount);
 
     // Chuẩn bị khu vực Altar (Bàn trải bài)
     setupAltarSlots();
@@ -348,20 +349,25 @@ function setupAltarSlots() {
     altarSection.style.display = 'flex';
 }
 
+// Quản lý lá bài đang được hover (chỉ cho phép 1 lá duy nhất được nâng lên tại 1 thời điểm)
+let currentHoveredCard = null;
+let lastChimeTime = 0;
+
 // Render các lá bài xòe thành cánh cung uyển chuyển
 function renderFannedDeck(cards) {
     const wrapper = document.getElementById('fan-cards-wrapper');
     wrapper.innerHTML = '';
+    currentHoveredCard = null;
 
     const total = cards.length;
-    // Góc xòe rộng từ -36 độ đến +36 độ
-    const startAngle = -36;
-    const endAngle = 36;
-    const angleStep = (endAngle - startAngle) / (total - 1);
+    // Góc xòe mượt từ -35 độ đến +35 độ
+    const startAngle = -35;
+    const endAngle = 35;
+    const angleStep = total > 1 ? (endAngle - startAngle) / (total - 1) : 0;
 
     // Khoảng cách ngang trải đều
-    const maxOffset = window.innerWidth < 768 ? 260 : 380;
-    const stepX = (maxOffset * 2) / (total - 1);
+    const maxOffset = window.innerWidth < 768 ? 240 : 370;
+    const stepX = total > 1 ? (maxOffset * 2) / (total - 1) : 0;
 
     cards.forEach((card, i) => {
         const cardEl = document.createElement('div');
@@ -370,9 +376,9 @@ function renderFannedDeck(cards) {
 
         const rot = startAngle + i * angleStep;
         const tx = -maxOffset + i * stepX;
-        // Độ cong vòm cánh cung Parabol
-        const normalized = (i - (total - 1) / 2) / ((total - 1) / 2);
-        const ty = Math.pow(normalized, 2) * (window.innerWidth < 768 ? 40 : 55);
+        // Độ cong Parabol tự nhiên
+        const normalized = total > 1 ? (i - (total - 1) / 2) / ((total - 1) / 2) : 0;
+        const ty = Math.pow(normalized, 2) * (window.innerWidth < 768 ? 35 : 50);
 
         cardEl.style.setProperty('--rot', `${rot}deg`);
         cardEl.style.setProperty('--tx', `${tx}px`);
@@ -381,17 +387,50 @@ function renderFannedDeck(cards) {
 
         cardEl.innerHTML = `<div class="fan-card-inner"></div>`;
 
-        // Âm thanh khi lướt qua lá bài
+        // Quản lý Hover bằng JS: Chống giật / chống rung lắc giữa các lá kề nhau
         cardEl.addEventListener('mouseenter', () => {
-            if (!cardEl.classList.contains('picked')) {
-                playChime(700 + i * 25);
+            if (cardEl.classList.contains('picked')) return;
+            if (currentHoveredCard === cardEl) return;
+
+            // Bỏ hover lá trước đó
+            if (currentHoveredCard) {
+                currentHoveredCard.classList.remove('is-hovered');
+            }
+
+            // Gán lá hiện tại làm lá duy nhất được hover
+            currentHoveredCard = cardEl;
+            cardEl.classList.add('is-hovered');
+
+            // Giới hạn tần suất phát âm thanh chuông tránh rè khi lia chuột nhanh
+            const now = Date.now();
+            if (now - lastChimeTime > 70) {
+                lastChimeTime = now;
+                playChime(650 + i * 25);
             }
         });
 
-        // Chọn lá bài khi bấm vào
-        cardEl.addEventListener('click', () => onCardPick(i, cardEl));
+        // Bấm chọn lá bài
+        cardEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cardEl.classList.contains('picked')) return;
+
+            if (currentHoveredCard === cardEl) {
+                cardEl.classList.remove('is-hovered');
+                currentHoveredCard = null;
+            }
+
+            onCardPick(i, cardEl);
+        });
 
         wrapper.appendChild(cardEl);
+    });
+
+    // Khi rời chuột khỏi toàn bộ khu vực quạt bài thì bỏ hover
+    wrapper.addEventListener('mouseleave', () => {
+        if (currentHoveredCard) {
+            currentHoveredCard.classList.remove('is-hovered');
+            currentHoveredCard = null;
+        }
     });
 }
 
@@ -417,7 +456,8 @@ function onCardPick(fanIndex, cardEl) {
     if (pickedCards.length >= currentSpreadMode) return;
     if (cardEl.classList.contains('picked')) return;
 
-    // Đánh dấu lá bài đã được rút từ quạt
+    // Đánh dấu lá bài đã được rút từ quạt và xóa trạng thái hover
+    cardEl.classList.remove('is-hovered');
     cardEl.classList.add('picked');
     playPickSound();
 
